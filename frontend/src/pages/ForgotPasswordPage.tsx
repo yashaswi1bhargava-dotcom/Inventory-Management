@@ -7,8 +7,7 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-md text-center">
         <h2 className="text-2xl font-bold text-gray-900">Forgot Password</h2>
         <p className="mt-2 text-sm text-gray-500">
-          Password reset functionality will be available in a future release.
-          Please contact your administrator for assistance.
+          Contact your administrator to reset your password.
         </p>
         <Link to="/login" className="btn-secondary mt-8 inline-flex">
           <ArrowLeft className="h-4 w-4" />

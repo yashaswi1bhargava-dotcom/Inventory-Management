@@ -22,7 +22,7 @@ export default function LoginPage() {
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { detail?: string | { msg: string }[] }; status?: number }; code?: string };
       if (!axiosErr.response) {
-        setError('Cannot reach the server. Start the backend with: uvicorn app.main:app --reload --port 8000');
+        setError('Unable to connect to the server. Please try again later.');
       } else if (axiosErr.response.status === 401) {
         setError('Invalid email or password');
       } else {
@@ -41,11 +41,11 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen">
-      <div className="hidden w-1/2 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 lg:flex lg:flex-col lg:justify-between lg:p-12">
+      <div className="hidden w-1/2 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 lg:flex lg:flex-col lg:justify-center lg:p-12">
         <div>
           <span className="text-xl font-bold text-white">Inventory</span>
         </div>
-        <div>
+        <div className="mt-12">
           <h1 className="text-4xl font-bold leading-tight text-white">
             Manage your inventory with confidence
           </h1>
@@ -53,7 +53,6 @@ export default function LoginPage() {
             Track IoT devices, manage stock levels, and monitor every transaction in real time.
           </p>
         </div>
-        <p className="text-sm text-brand-300">&copy; 2026 Inventory. All rights reserved.</p>
       </div>
 
       <div className="flex w-full flex-col justify-center px-6 py-12 lg:w-1/2 lg:px-16">
@@ -128,11 +127,6 @@ export default function LoginPage() {
               Create account
             </Link>
           </p>
-
-          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
-            <p className="text-xs font-medium text-gray-500">Demo credentials</p>
-            <p className="mt-1 text-sm text-gray-700">admin@inventory.com / admin123</p>
-          </div>
         </div>
       </div>
     </div>

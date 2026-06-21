@@ -67,10 +67,6 @@ npm run dev
 
 Visit **http://localhost:5173**
 
-**Demo credentials:**
-- Email: `admin@inventory.com`
-- Password: `admin123`
-
 ## Demo Flow
 
 1. **Login** as admin
