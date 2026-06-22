@@ -74,7 +74,7 @@ export default function UsersPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+        <div className="spinner" />
       </div>
     );
   }
@@ -103,8 +103,8 @@ export default function UsersPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-gray-200 bg-gray-50">
-                <tr className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              <thead className="border-b table-header">
+                <tr className="text-xs font-medium uppercase tracking-wider text-navy-secondary">
                   <th className="px-6 py-3">Name</th>
                   <th className="px-6 py-3">Email</th>
                   <th className="px-6 py-3">Role</th>
@@ -112,19 +112,19 @@ export default function UsersPage() {
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-surface-border">
                 {users.map((user) => (
-                  <tr key={user.user_id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">{user.name}</td>
-                    <td className="px-6 py-4 text-gray-600">{user.email}</td>
+                  <tr key={user.user_id} className="table-row">
+                    <td className="px-6 py-4 font-medium text-navy">{user.name}</td>
+                    <td className="px-6 py-4 text-navy-secondary">{user.email}</td>
                     <td className="px-6 py-4"><Badge status={user.role} /></td>
                     <td className="px-6 py-4"><Badge status={user.status} /></td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => openEdit(user)} className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
+                        <button onClick={() => openEdit(user)} className="icon-btn">
                           <Pencil className="h-4 w-4" />
                         </button>
-                        <button onClick={() => handleDelete(user)} className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600">
+                        <button onClick={() => handleDelete(user)} className="icon-btn-warning">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -144,24 +144,24 @@ export default function UsersPage() {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+            <div className="rounded-lg border alert-error">{error}</div>
           )}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Name</label>
+            <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Name</label>
             <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+            <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Email</label>
             <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
           </div>
           {!editUser && (
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Password</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Password</label>
               <input required type="password" minLength={6} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className="input-field" />
             </div>
           )}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Role</label>
+            <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Role</label>
             <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} className="input-field">
               <option value="user">User</option>
               <option value="admin">Admin</option>

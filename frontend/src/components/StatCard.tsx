@@ -5,24 +5,31 @@ interface StatCardProps {
   value: string | number;
   icon: LucideIcon;
   trend?: string;
-  color?: 'blue' | 'green' | 'amber' | 'purple';
+  color?: 'primary' | 'secondary' | 'accent' | 'navy';
 }
 
 const colorMap = {
-  blue: 'bg-brand-50 text-brand-600',
-  green: 'bg-green-50 text-green-600',
-  amber: 'bg-amber-50 text-amber-600',
-  purple: 'bg-purple-50 text-purple-600',
+  primary: 'bg-primary-light text-primary',
+  secondary: 'bg-secondary-light text-secondary',
+  accent: 'bg-accent-light text-accent',
+  navy: 'bg-surface-muted text-navy',
 };
 
-export default function StatCard({ title, value, icon: Icon, trend, color = 'blue' }: StatCardProps) {
+const valueColorMap = {
+  primary: 'text-primary',
+  secondary: 'text-secondary',
+  accent: 'text-accent',
+  navy: 'text-navy',
+};
+
+export default function StatCard({ title, value, icon: Icon, trend, color = 'primary' }: StatCardProps) {
   return (
     <div className="card">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900">{value}</p>
-          {trend && <p className="mt-1 text-xs text-gray-500">{trend}</p>}
+          <p className="text-sm font-medium text-navy-secondary">{title}</p>
+          <p className={`mt-2 text-3xl font-bold tracking-tight ${valueColorMap[color]}`}>{value}</p>
+          {trend && <p className="mt-1 text-xs text-navy-secondary/80">{trend}</p>}
         </div>
         <div className={`rounded-lg p-3 ${colorMap[color]}`}>
           <Icon className="h-5 w-5" />

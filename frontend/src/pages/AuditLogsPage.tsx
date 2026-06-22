@@ -48,7 +48,7 @@ export default function AuditLogsPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+        <div className="spinner" />
       </div>
     );
   }
@@ -75,8 +75,8 @@ export default function AuditLogsPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-gray-200 bg-gray-50">
-                <tr className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              <thead className="table-header border-b border-surface-border">
+                <tr className="text-xs font-medium uppercase tracking-wider text-navy-secondary">
                   <th className="px-6 py-3">User</th>
                   <th className="px-6 py-3">Action</th>
                   <th className="px-6 py-3">Entity</th>
@@ -84,18 +84,18 @@ export default function AuditLogsPage() {
                   <th className="px-6 py-3">Timestamp</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-surface-border">
                 {filteredLogs.map((log) => (
-                  <tr key={log.log_id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">{log.user_name}</td>
+                  <tr key={log.log_id} className="table-row">
+                    <td className="px-6 py-4 font-medium text-navy">{log.user_name}</td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700">
+                      <span className="inline-flex rounded-md bg-secondary-light px-2 py-1 text-xs font-medium text-secondary">
                         {log.action}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{log.product_name || '—'}</td>
-                    <td className="px-6 py-4 max-w-md truncate text-gray-500">{log.details}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">{new Date(log.created_at).toLocaleString()}</td>
+                    <td className="px-6 py-4 text-navy-secondary">{log.product_name || '—'}</td>
+                    <td className="px-6 py-4 max-w-md truncate text-navy-secondary">{log.details}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-navy-secondary">{new Date(log.created_at).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

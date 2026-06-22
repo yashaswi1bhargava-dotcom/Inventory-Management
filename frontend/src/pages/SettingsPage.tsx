@@ -10,29 +10,29 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900">Account</h3>
+          <h3 className="text-lg font-semibold text-navy">Account</h3>
           <div className="mt-4 space-y-3">
             <div>
-              <p className="text-xs font-medium text-gray-500">Name</p>
-              <p className="mt-1 text-sm text-gray-900">{name}</p>
+              <p className="text-xs font-medium text-navy-secondary">Name</p>
+              <p className="mt-1 text-sm text-navy">{name}</p>
             </div>
             <div>
-              <p className="text-xs font-medium text-gray-500">Role</p>
-              <p className="mt-1 text-sm text-gray-900">Administrator</p>
+              <p className="text-xs font-medium text-navy-secondary">Role</p>
+              <p className="mt-1 text-sm text-navy">Administrator</p>
             </div>
           </div>
         </div>
 
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900">System</h3>
+          <h3 className="text-lg font-semibold text-navy">System</h3>
           <div className="mt-4 space-y-3">
             <div>
-              <p className="text-xs font-medium text-gray-500">Application</p>
-              <p className="mt-1 text-sm text-gray-900">Inventory Management System</p>
+              <p className="text-xs font-medium text-navy-secondary">Application</p>
+              <p className="mt-1 text-sm text-navy">Inventory Management System</p>
             </div>
             <div>
-              <p className="text-xs font-medium text-gray-500">Module</p>
-              <p className="mt-1 text-sm text-gray-900">Admin Portal</p>
+              <p className="text-xs font-medium text-navy-secondary">Module</p>
+              <p className="mt-1 text-sm text-navy">Admin Portal</p>
             </div>
           </div>
         </div>

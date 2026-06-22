@@ -75,7 +75,7 @@ export default function InventoryPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+        <div className="spinner" />
       </div>
     );
   }
@@ -112,8 +112,8 @@ export default function InventoryPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-gray-200 bg-gray-50">
-                <tr className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              <thead className="table-header border-b border-surface-border">
+                <tr className="text-xs font-medium uppercase tracking-wider text-navy-secondary">
                   <th className="px-6 py-3">Product Name</th>
                   <th className="px-6 py-3">Category</th>
                   <th className="px-6 py-3">SKU</th>
@@ -123,21 +123,21 @@ export default function InventoryPage() {
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-surface-border">
                 {filteredProducts.map((product) => (
-                  <tr key={product.product_id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">{product.product_name}</td>
-                    <td className="px-6 py-4 text-gray-600">{product.category_name}</td>
-                    <td className="px-6 py-4 font-mono text-xs text-gray-600">{product.sku}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900">{product.current_quantity}</td>
-                    <td className="px-6 py-4 text-gray-600">{product.minimum_stock_level}</td>
+                  <tr key={product.product_id} className="table-row">
+                    <td className="px-6 py-4 font-medium text-navy">{product.product_name}</td>
+                    <td className="px-6 py-4 text-navy-secondary">{product.category_name}</td>
+                    <td className="px-6 py-4 font-mono text-xs text-navy-secondary">{product.sku}</td>
+                    <td className="px-6 py-4 font-medium text-navy">{product.current_quantity}</td>
+                    <td className="px-6 py-4 text-navy-secondary">{product.minimum_stock_level}</td>
                     <td className="px-6 py-4"><Badge status={product.status || 'in_stock'} /></td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => openStock(product, 'stock_in')} title="Stock In" className="rounded-lg p-2 text-gray-400 hover:bg-green-50 hover:text-green-600">
+                        <button onClick={() => openStock(product, 'stock_in')} title="Stock In" className="icon-btn">
                           <ArrowDownToLine className="h-4 w-4" />
                         </button>
-                        <button onClick={() => openStock(product, 'stock_out')} title="Stock Out" className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600">
+                        <button onClick={() => openStock(product, 'stock_out')} title="Stock Out" className="icon-btn-warning">
                           <ArrowUpFromLine className="h-4 w-4" />
                         </button>
                       </div>
@@ -152,17 +152,17 @@ export default function InventoryPage() {
 
       <Modal isOpen={showStockModal} onClose={() => setShowStockModal(false)} title={stockForm.transaction_type === 'stock_in' ? 'Stock In' : 'Stock Out'}>
         <form onSubmit={handleStockSubmit} className="space-y-4">
-          {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
-          <div className="rounded-lg bg-gray-50 p-4">
-            <p className="text-sm font-medium text-gray-900">{stockProduct?.product_name}</p>
-            <p className="text-xs text-gray-500">Current stock: {stockProduct?.current_quantity} units</p>
+          {error && <div className="alert-error">{error}</div>}
+          <div className="rounded-lg bg-surface-muted p-4">
+            <p className="text-sm font-medium text-navy">{stockProduct?.product_name}</p>
+            <p className="text-xs text-navy-secondary">Current stock: {stockProduct?.current_quantity} units</p>
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Quantity</label>
+            <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Quantity</label>
             <input required type="number" min="1" value={stockForm.quantity} onChange={(e) => setStockForm({ ...stockForm, quantity: Number(e.target.value) })} className="input-field" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Remarks</label>
+            <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Remarks</label>
             <textarea rows={2} value={stockForm.remarks} onChange={(e) => setStockForm({ ...stockForm, remarks: e.target.value })} className="input-field" placeholder="Optional notes..." />
           </div>
           <div className="flex justify-end gap-3 pt-2">
