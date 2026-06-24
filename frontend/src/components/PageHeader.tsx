@@ -10,8 +10,8 @@ export default function PageHeader({ title, description, actions }: PageHeaderPr
   return (
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">{title}</h1>
-        {description && <p className="mt-1 text-sm text-gray-500">{description}</p>}
+        <h1 className="text-2xl font-bold tracking-tight text-navy">{title}</h1>
+        {description && <p className="mt-1 text-sm text-navy-secondary">{description}</p>}
       </div>
       {actions && <div className="flex items-center gap-3">{actions}</div>}
     </div>
