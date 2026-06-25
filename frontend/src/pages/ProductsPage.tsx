@@ -116,7 +116,7 @@ export default function ProductsPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+        <div className="spinner" />
       </div>
     );
   }
@@ -160,8 +160,8 @@ export default function ProductsPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-gray-200 bg-gray-50">
-                <tr className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              <thead className="table-header border-b border-surface-border">
+                <tr className="text-xs font-medium uppercase tracking-wider text-navy-secondary">
                   <th className="px-6 py-3">Product Name</th>
                   <th className="px-6 py-3">Category</th>
                   <th className="px-6 py-3">SKU</th>
@@ -171,24 +171,24 @@ export default function ProductsPage() {
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-surface-border">
                 {filteredProducts.map((product) => (
-                  <tr key={product.product_id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">{product.product_name}</td>
-                    <td className="px-6 py-4 text-gray-600">{product.category_name}</td>
-                    <td className="px-6 py-4 font-mono text-xs text-gray-600">{product.sku}</td>
-                    <td className="px-6 py-4 text-gray-600">${product.price.toFixed(2)}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900">{product.current_quantity}</td>
+                  <tr key={product.product_id} className="table-row">
+                    <td className="px-6 py-4 font-medium text-navy">{product.product_name}</td>
+                    <td className="px-6 py-4 text-navy-secondary">{product.category_name}</td>
+                    <td className="px-6 py-4 font-mono text-xs text-navy-secondary">{product.sku}</td>
+                    <td className="px-6 py-4 text-navy-secondary">${product.price.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-medium text-navy">{product.current_quantity}</td>
                     <td className="px-6 py-4"><Badge status={product.status || 'in_stock'} /></td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => openDetails(product)} title="View Details" className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
+                        <button onClick={() => openDetails(product)} title="View Details" className="icon-btn">
                           <Eye className="h-4 w-4" />
                         </button>
-                        <button onClick={() => openEdit(product)} className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
+                        <button onClick={() => openEdit(product)} className="icon-btn">
                           <Pencil className="h-4 w-4" />
                         </button>
-                        <button onClick={() => handleDelete(product)} className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600">
+                        <button onClick={() => handleDelete(product)} className="icon-btn-warning">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -203,18 +203,18 @@ export default function ProductsPage() {
 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editProduct ? 'Edit Product' : 'Add Product'} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
+          {error && <div className="alert-error">{error}</div>}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Product Name</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Product Name</label>
               <input required value={form.product_name} onChange={(e) => setForm({ ...form, product_name: e.target.value })} className="input-field" />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">SKU</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">SKU</label>
               <input required value={form.sku} onChange={(e) => setForm({ ...form, sku: e.target.value })} className="input-field" />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Category</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Category</label>
               <select required value={form.category_id} onChange={(e) => setForm({ ...form, category_id: Number(e.target.value) })} className="input-field">
                 {categories.map((cat) => (
                   <option key={cat.category_id} value={cat.category_id}>{cat.category_name}</option>
@@ -222,19 +222,19 @@ export default function ProductsPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Price</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Price</label>
               <input required type="number" min="0" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="input-field" />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Current Quantity</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Current Quantity</label>
               <input required type="number" min="0" value={form.current_quantity} onChange={(e) => setForm({ ...form, current_quantity: Number(e.target.value) })} className="input-field" />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Minimum Stock Level</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Minimum Stock Level</label>
               <input required type="number" min="0" value={form.minimum_stock_level} onChange={(e) => setForm({ ...form, minimum_stock_level: Number(e.target.value) })} className="input-field" />
             </div>
             <div className="sm:col-span-2">
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Description</label>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Description</label>
               <textarea rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field" />
             </div>
           </div>
@@ -251,18 +251,18 @@ export default function ProductsPage() {
         {viewProduct && (
           <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              <div><p className="text-xs font-medium text-gray-500">Product Name</p><p className="mt-1 text-sm text-gray-900">{viewProduct.product_name}</p></div>
-              <div><p className="text-xs font-medium text-gray-500">SKU</p><p className="mt-1 font-mono text-sm text-gray-900">{viewProduct.sku}</p></div>
-              <div><p className="text-xs font-medium text-gray-500">Category</p><p className="mt-1 text-sm text-gray-900">{viewProduct.category_name}</p></div>
-              <div><p className="text-xs font-medium text-gray-500">Status</p><div className="mt-1"><Badge status={viewProduct.status || 'in_stock'} /></div></div>
-              <div><p className="text-xs font-medium text-gray-500">Price</p><p className="mt-1 text-sm text-gray-900">${viewProduct.price.toFixed(2)}</p></div>
-              <div><p className="text-xs font-medium text-gray-500">Quantity</p><p className="mt-1 text-sm text-gray-900">{viewProduct.current_quantity}</p></div>
-              <div><p className="text-xs font-medium text-gray-500">Minimum Stock</p><p className="mt-1 text-sm text-gray-900">{viewProduct.minimum_stock_level}</p></div>
-              <div><p className="text-xs font-medium text-gray-500">Last Updated</p><p className="mt-1 text-sm text-gray-900">{new Date(viewProduct.updated_at).toLocaleString()}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Product Name</p><p className="mt-1 text-sm text-navy">{viewProduct.product_name}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">SKU</p><p className="mt-1 font-mono text-sm text-navy">{viewProduct.sku}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Category</p><p className="mt-1 text-sm text-navy">{viewProduct.category_name}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Status</p><div className="mt-1"><Badge status={viewProduct.status || 'in_stock'} /></div></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Price</p><p className="mt-1 text-sm text-navy">${viewProduct.price.toFixed(2)}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Quantity</p><p className="mt-1 text-sm text-navy">{viewProduct.current_quantity}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Minimum Stock</p><p className="mt-1 text-sm text-navy">{viewProduct.minimum_stock_level}</p></div>
+              <div><p className="text-xs font-medium text-navy-secondary">Last Updated</p><p className="mt-1 text-sm text-navy">{new Date(viewProduct.updated_at).toLocaleString()}</p></div>
             </div>
             <div>
-              <p className="text-xs font-medium text-gray-500">Description</p>
-              <p className="mt-1 text-sm text-gray-700">{viewProduct.description || 'No description provided.'}</p>
+              <p className="text-xs font-medium text-navy-secondary">Description</p>
+              <p className="mt-1 text-sm text-navy-secondary">{viewProduct.description || 'No description provided.'}</p>
             </div>
           </div>
         )}
