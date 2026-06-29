@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserPlus, Trash2, Pencil } from 'lucide-react';
+import { UserPlus, Trash2, Pencil, AlertTriangle } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import Modal from '../components/Modal';
 import Badge from '../components/Badge';
@@ -189,18 +189,28 @@ export default function UsersPage() {
       </Modal>
 
       {showOptionsModal && actionUser && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 animate-fade-in">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full border border-surface-border">
-            <h3 className="text-lg font-bold text-navy mb-1">Manage User Account</h3>
-            <p className="text-sm text-navy-secondary mb-4">Choose how you want to handle removing access for <strong>{actionUser.name}</strong>.</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-navy/40 backdrop-blur-sm animate-fade-in" onClick={() => { setShowOptionsModal(false); setActionUser(null); }} />
+          <div className="relative z-10 bg-white p-6 rounded-xl shadow-xl max-w-md w-full border border-surface-border mx-4 animate-scale-in">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="h-10 w-10 rounded-full bg-primary-light text-primary flex items-center justify-center shrink-0">
+                <Trash2 className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-navy">Manage User Account</h3>
+                <p className="text-sm text-navy-secondary mt-1">
+                  Choose how you want to handle removing access for <strong className="text-navy">{actionUser.name}</strong>.
+                </p>
+              </div>
+            </div>
             
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-2 pt-2">
               <button
                 onClick={() => {
                   setShowOptionsModal(false);
                   executeDelete(false);
                 }}
-                className="w-full bg-amber-500 text-white py-2 px-4 rounded hover:bg-amber-600 font-medium text-sm transition"
+                className="w-full bg-primary text-white py-2.5 px-4 rounded-lg hover:bg-primary-dark font-medium text-sm transition focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"
               >
                 Deactivate Account (Safe - Keeps History)
               </button>
@@ -210,7 +220,7 @@ export default function UsersPage() {
                   setShowOptionsModal(false);
                   setShowWarningModal(true);
                 }}
-                className="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 font-medium text-sm transition"
+                className="w-full bg-secondary text-white py-2.5 px-4 rounded-lg hover:bg-secondary-dark font-medium text-sm transition focus:outline-none focus:ring-2 focus:ring-secondary/20 shadow-sm"
               >
                 Delete Completely (Hard Remove)
               </button>
@@ -220,7 +230,7 @@ export default function UsersPage() {
                   setShowOptionsModal(false);
                   setActionUser(null);
                 }}
-                className="w-full bg-gray-100 text-navy-secondary py-2 px-4 rounded hover:bg-gray-200 font-medium text-sm transition mt-1"
+                className="w-full bg-surface-muted text-navy-secondary py-2.5 px-4 rounded-lg hover:bg-surface-border hover:text-navy font-medium text-sm transition mt-1 focus:outline-none focus:ring-2 focus:ring-navy/10 border border-surface-border"
               >
                 Cancel
               </button>
@@ -230,20 +240,28 @@ export default function UsersPage() {
       )}
 
       {showWarningModal && actionUser && (
-        <div className="fixed inset-0 bg-red-900 bg-opacity-40 flex items-center justify-center z-50 animate-fade-in">
-          <div className="bg-white p-6 rounded-lg shadow-2xl border-2 border-red-500 max-w-sm w-full">
-            <h3 className="text-xl font-bold text-red-600 mb-2 flex items-center gap-2">⚠ CRITICAL WARNING</h3>
-            <p className="text-sm text-navy-secondary mb-4 leading-relaxed">
-              You are about to permanently delete <strong>{actionUser.name}</strong>. This action <strong>WILL REMOVE ALL TRACES</strong> of their transaction logs, restock requests, and activity history from the platform database. This cannot be undone.
-            </p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-navy/40 backdrop-blur-sm animate-fade-in" onClick={() => { setShowWarningModal(false); setActionUser(null); }} />
+          <div className="relative z-10 bg-white p-6 rounded-xl shadow-xl max-w-md w-full border border-surface-border mx-4 animate-scale-in">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="h-10 w-10 rounded-full bg-primary-light text-primary flex items-center justify-center shrink-0">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-primary">CRITICAL WARNING</h3>
+                <p className="text-sm text-navy-secondary mt-1 leading-relaxed">
+                  You are about to permanently delete <strong className="text-navy">{actionUser.name}</strong>. This action <strong className="text-primary">will remove all traces</strong> of their transaction logs, restock requests, and activity history from the platform database. This cannot be undone.
+                </p>
+              </div>
+            </div>
             
-            <div className="flex gap-3">
+            <div className="flex gap-3 pt-2">
               <button
                 onClick={() => {
                   setShowWarningModal(false);
                   setActionUser(null);
                 }}
-                className="flex-1 bg-gray-100 text-navy-secondary py-2 rounded hover:bg-gray-200 text-sm font-semibold transition"
+                className="flex-1 bg-surface-muted text-navy-secondary py-2.5 rounded-lg hover:bg-surface-border hover:text-navy text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-navy/10 border border-surface-border"
               >
                 Back Out (Safe)
               </button>
@@ -252,7 +270,7 @@ export default function UsersPage() {
                   setShowWarningModal(false);
                   executeDelete(true);
                 }}
-                className="flex-1 bg-red-600 text-white py-2 rounded hover:bg-red-700 text-sm font-semibold transition"
+                className="flex-1 bg-primary text-white py-2.5 rounded-lg hover:bg-primary-dark text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"
               >
                 Confirm Purge
               </button>
