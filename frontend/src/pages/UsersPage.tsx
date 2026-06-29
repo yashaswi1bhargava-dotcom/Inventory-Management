@@ -15,6 +15,10 @@ export default function UsersPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'user' });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  
+  const [actionUser, setActionUser] = useState<User | null>(null);
+  const [showOptionsModal, setShowOptionsModal] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
   const fetchUsers = () => {
     usersApi.list()
@@ -60,14 +64,16 @@ export default function UsersPage() {
     }
   };
 
-  const handleDelete = async (user: User) => {
-    if (!confirm(`Delete user "${user.name}"?`)) return;
+  const executeDelete = async (hard: boolean) => {
+    if (!actionUser) return;
     try {
-      await usersApi.delete(user.user_id);
+      await usersApi.delete(actionUser.user_id, hard);
       fetchUsers();
     } catch (err: unknown) {
       const message = (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail;
-      alert(typeof message === 'string' ? message : 'Delete failed');
+      alert(typeof message === 'string' ? message : `${hard ? 'Delete' : 'Deactivate'} failed`);
+    } finally {
+      setActionUser(null);
     }
   };
 
@@ -124,7 +130,13 @@ export default function UsersPage() {
                         <button onClick={() => openEdit(user)} className="icon-btn">
                           <Pencil className="h-4 w-4" />
                         </button>
-                        <button onClick={() => handleDelete(user)} className="icon-btn-warning">
+                        <button 
+                          onClick={() => {
+                            setActionUser(user);
+                            setShowOptionsModal(true);
+                          }} 
+                          className="icon-btn-warning"
+                        >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -175,6 +187,79 @@ export default function UsersPage() {
           </div>
         </form>
       </Modal>
+
+      {showOptionsModal && actionUser && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 animate-fade-in">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full border border-surface-border">
+            <h3 className="text-lg font-bold text-navy mb-1">Manage User Account</h3>
+            <p className="text-sm text-navy-secondary mb-4">Choose how you want to handle removing access for <strong>{actionUser.name}</strong>.</p>
+            
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={() => {
+                  setShowOptionsModal(false);
+                  executeDelete(false);
+                }}
+                className="w-full bg-amber-500 text-white py-2 px-4 rounded hover:bg-amber-600 font-medium text-sm transition"
+              >
+                Deactivate Account (Safe - Keeps History)
+              </button>
+              
+              <button
+                onClick={() => {
+                  setShowOptionsModal(false);
+                  setShowWarningModal(true);
+                }}
+                className="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 font-medium text-sm transition"
+              >
+                Delete Completely (Hard Remove)
+              </button>
+              
+              <button
+                onClick={() => {
+                  setShowOptionsModal(false);
+                  setActionUser(null);
+                }}
+                className="w-full bg-gray-100 text-navy-secondary py-2 px-4 rounded hover:bg-gray-200 font-medium text-sm transition mt-1"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showWarningModal && actionUser && (
+        <div className="fixed inset-0 bg-red-900 bg-opacity-40 flex items-center justify-center z-50 animate-fade-in">
+          <div className="bg-white p-6 rounded-lg shadow-2xl border-2 border-red-500 max-w-sm w-full">
+            <h3 className="text-xl font-bold text-red-600 mb-2 flex items-center gap-2">⚠ CRITICAL WARNING</h3>
+            <p className="text-sm text-navy-secondary mb-4 leading-relaxed">
+              You are about to permanently delete <strong>{actionUser.name}</strong>. This action <strong>WILL REMOVE ALL TRACES</strong> of their transaction logs, restock requests, and activity history from the platform database. This cannot be undone.
+            </p>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowWarningModal(false);
+                  setActionUser(null);
+                }}
+                className="flex-1 bg-gray-100 text-navy-secondary py-2 rounded hover:bg-gray-200 text-sm font-semibold transition"
+              >
+                Back Out (Safe)
+              </button>
+              <button
+                onClick={() => {
+                  setShowWarningModal(false);
+                  executeDelete(true);
+                }}
+                className="flex-1 bg-red-600 text-white py-2 rounded hover:bg-red-700 text-sm font-semibold transition"
+              >
+                Confirm Purge
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

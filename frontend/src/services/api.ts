@@ -56,7 +56,7 @@ export const usersApi = {
   create: (data: { name: string; email: string; password: string; role: string }) =>
     api.post<User>('/users/', data),
   update: (id: number, data: Partial<User>) => api.put<User>(`/users/${id}`, data),
-  delete: (id: number) => api.delete(`/users/${id}`),
+  delete: (id: number, hard: boolean = false) => api.delete(`/users/${id}?hard=${hard}`),
 };
 
 export const productsApi = {

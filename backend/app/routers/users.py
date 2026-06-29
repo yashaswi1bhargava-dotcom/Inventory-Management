@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.dependencies.auth import get_current_user, require_admin
-from app.models import User
+from app.models import User, InventoryTransaction, AuditLog, ProductRequest
 from app.schemas import UserCreate, UserResponse, UserUpdate
 from app.services.audit import create_audit_log
 from app.utils.auth import get_password_hash
@@ -97,24 +97,41 @@ def update_user(
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(
-    user_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(require_admin),
+    user_id: int, 
+    hard: bool = Query(False),
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(require_admin)
 ):
     if user_id == current_user.user_id:
         raise HTTPException(status_code=400, detail="Cannot delete your own account")
-
+        
     user = db.query(User).filter(User.user_id == user_id).first()
-    if not user:
+    if not user: 
         raise HTTPException(status_code=404, detail="User not found")
     
-    user.status = "inactive"
-
-    create_audit_log(
-        db,
-        current_user.user_id,
-        "User Deactivated",
-        f"Soft-deleted/Deactivated user '{user.name}' ({user.email})"
-    )
-    db.commit()
+    if hard:
+        db.query(InventoryTransaction).filter(InventoryTransaction.user_id == user_id).delete(synchronize_session=False)
+        db.query(ProductRequest).filter(ProductRequest.user_id == user_id).delete(synchronize_session=False)
+        db.query(AuditLog).filter(AuditLog.user_id == user_id).delete(synchronize_session=False)
+        
+        db.delete(user)
+        db.commit()
+        
+        create_audit_log(
+            db, 
+            current_user.user_id, 
+            "User Purged", 
+            f"HARD DELETED user '{user.name}' ({user.email}) and purged all related activity records."
+        )
+        db.commit()
+    else:
+        user.status = "inactive"
+        create_audit_log(
+            db, 
+            current_user.user_id, 
+            "User Deactivated", 
+            f"Soft-deleted/Deactivated user '{user.name}' ({user.email})."
+        )
+        db.commit()
+        
     return None
