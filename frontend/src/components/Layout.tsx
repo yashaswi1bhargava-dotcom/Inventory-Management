@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Settings,
   LogOut,
+  MessageCircle,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -23,6 +24,7 @@ const navItems = [
   { to: '/audit-logs', label: 'Audit Logs', icon: ScrollText },
   { to: '/low-stock', label: 'Low Stock Alerts', icon: AlertTriangle },
   { to: '/settings', label: 'Settings', icon: Settings },
+  { to: '/chatbot', label: 'AI Chatbot', icon: MessageCircle },
 ];
 
 export default function Layout() {

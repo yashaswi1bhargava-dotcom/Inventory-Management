@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
-from app.routers import audit_logs, auth, dashboard, products, transactions, users
+from app.routers import audit_logs, auth, dashboard, products, transactions, users, chatbot
 
 Base.metadata.create_all(bind=engine)
 
@@ -37,3 +37,4 @@ app.include_router(dashboard.router, prefix="/api")
 @app.get("/api/health")
 def health_check():
     return {"status": "ok"}
+app.include_router(chatbot.router)

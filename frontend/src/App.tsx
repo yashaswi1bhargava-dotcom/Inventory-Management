@@ -14,7 +14,7 @@ import AuditLogsPage from './pages/AuditLogsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import LowStockPage from './pages/LowStockPage';
 import SettingsPage from './pages/SettingsPage';
-
+import ChatbotPage from './pages/ChatbotPage';
 function RootRedirect() {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
@@ -41,6 +41,7 @@ export default function App() {
               <Route path="/audit-logs" element={<AuditLogsPage />} />
               <Route path="/low-stock" element={<LowStockPage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/chatbot" element={<ChatbotPage />} />
             </Route>
           </Route>
 
