@@ -127,6 +127,8 @@ export default function AnalyticsPage() {
                   <th className="px-4 py-3">Product Name</th>
                   <th className="px-4 py-3 text-center">Current Stock</th>
                   <th className="px-4 py-3 text-center">Projected 30-Day Demand</th>
+                  <th className="px-4 py-3 text-center">Avg Lead Time</th>
+                  <th className="px-4 py-3 text-center">Order Cycle</th>
                   <th className="px-4 py-3 text-right">Runway Status</th>
                 </tr>
               </thead>
@@ -136,14 +138,22 @@ export default function AnalyticsPage() {
                     <td className="px-4 py-3.5 font-medium text-[#002B49]">{item.product_name}</td>
                     <td className="px-4 py-3.5 text-center font-semibold">{item.current_stock} units</td>
                     <td className="px-4 py-3.5 text-center text-[#4A5568]">{item.predicted_30_day_demand} units</td>
+                    <td className="px-4 py-3.5 text-center font-medium text-[#4A5568]">{item.average_lead_time_days} days</td>
+                    <td className="px-4 py-3.5 text-center text-[#4A5568]">{item.order_frequency_pattern}</td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${
-                        item.stock_runway_status.includes('RISK')
-                          ? 'bg-red-50 text-red-700 border-red-200'
-                          : 'bg-green-50 text-green-700 border-green-200'
-                      }`}>
-                        {item.stock_runway_status}
-                      </span>
+                      {item.recommended_reorder_window_days <= 3 ? (
+                        <span className="px-2.5 py-1 text-xs font-semibold rounded-full border bg-yellow-50 text-yellow-700 border-yellow-200 inline-block text-center whitespace-nowrap">
+                          ACTION REQUIRED: Order within {item.recommended_reorder_window_days} days
+                        </span>
+                      ) : (
+                        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${
+                          item.stock_runway_status.includes('RISK')
+                            ? 'bg-red-50 text-red-700 border-red-200'
+                            : 'bg-green-50 text-green-700 border-green-200'
+                        }`}>
+                          {item.stock_runway_status}
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))}

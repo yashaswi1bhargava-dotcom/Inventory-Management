@@ -20,6 +20,7 @@ def _to_transaction_response(txn: InventoryTransaction) -> TransactionResponse:
         transaction_type=txn.transaction_type,
         quantity=txn.quantity,
         remarks=txn.remarks,
+        ordered_at=txn.ordered_at,
         created_at=txn.created_at,
     )
 
@@ -63,6 +64,7 @@ def create_transaction(
         transaction_type=data.transaction_type,
         quantity=data.quantity,
         remarks=data.remarks,
+        ordered_at=data.ordered_at,
     )
     db.add(txn)
 

@@ -34,6 +34,12 @@ def get_database_unavailable_message() -> str:
 def init_db() -> None:
     try:
         Base.metadata.create_all(bind=engine)
+        with engine.connect() as conn:
+            try:
+                conn.execute(text("ALTER TABLE inventory_transactions ADD COLUMN ordered_at DATETIME NULL"))
+                conn.commit()
+            except Exception:
+                pass
     except SQLAlchemyError as exc:
         raise RuntimeError(get_database_unavailable_message()) from exc
 

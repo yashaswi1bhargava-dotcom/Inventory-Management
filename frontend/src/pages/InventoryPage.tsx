@@ -20,7 +20,7 @@ export default function InventoryPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [showStockModal, setShowStockModal] = useState(false);
   const [stockProduct, setStockProduct] = useState<Product | null>(null);
-  const [stockForm, setStockForm] = useState({ transaction_type: 'stock_in', quantity: 1, remarks: '' });
+  const [stockForm, setStockForm] = useState({ transaction_type: 'stock_in', quantity: 1, remarks: '', ordered_at: '' });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
@@ -93,7 +93,7 @@ export default function InventoryPage() {
 
   const openStock = (product: Product, type: 'stock_in' | 'stock_out') => {
     setStockProduct(product);
-    setStockForm({ transaction_type: type, quantity: 1, remarks: '' });
+    setStockForm({ transaction_type: type, quantity: 1, remarks: '', ordered_at: '' });
     setError('');
     setShowStockModal(true);
   };
@@ -109,6 +109,7 @@ export default function InventoryPage() {
         transaction_type: stockForm.transaction_type,
         quantity: stockForm.quantity,
         remarks: stockForm.remarks,
+        ordered_at: stockForm.transaction_type === 'stock_in' && stockForm.ordered_at ? new Date(stockForm.ordered_at).toISOString() : undefined,
       });
       setShowStockModal(false);
       fetchData();
@@ -229,6 +230,17 @@ export default function InventoryPage() {
             <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Quantity</label>
             <input required type="number" min="1" value={stockForm.quantity} onChange={(e) => setStockForm({ ...stockForm, quantity: Number(e.target.value) })} className="input-field" />
           </div>
+          {stockForm.transaction_type === 'stock_in' && (
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Date Ordered</label>
+              <input
+                type="date"
+                value={stockForm.ordered_at}
+                onChange={(e) => setStockForm({ ...stockForm, ordered_at: e.target.value })}
+                className="input-field"
+              />
+            </div>
+          )}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-navy-secondary">Remarks</label>
             <textarea rows={2} value={stockForm.remarks} onChange={(e) => setStockForm({ ...stockForm, remarks: e.target.value })} className="input-field" placeholder="Optional notes..." />

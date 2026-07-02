@@ -71,6 +71,7 @@ class InventoryTransaction(Base):
     transaction_type = Column(Enum(TransactionType), nullable=False)
     quantity = Column(Integer, nullable=False)
     remarks = Column(Text, default="")
+    ordered_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     product = relationship("Product", back_populates="transactions")

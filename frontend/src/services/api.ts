@@ -76,7 +76,7 @@ export const categoriesApi = {
 
 export const transactionsApi = {
   list: () => api.get<Transaction[]>('/transactions/'),
-  create: (data: { product_id: number; transaction_type: string; quantity: number; remarks?: string }) =>
+  create: (data: { product_id: number; transaction_type: string; quantity: number; remarks?: string; ordered_at?: string }) =>
     api.post<Transaction>('/transactions/', data),
 };
 

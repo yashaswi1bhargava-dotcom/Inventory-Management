@@ -15,7 +15,7 @@ export default function UsersPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'user' });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  
+
   const [actionUser, setActionUser] = useState<User | null>(null);
   const [showOptionsModal, setShowOptionsModal] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -130,11 +130,11 @@ export default function UsersPage() {
                         <button onClick={() => openEdit(user)} className="icon-btn">
                           <Pencil className="h-4 w-4" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => {
                             setActionUser(user);
                             setShowOptionsModal(true);
-                          }} 
+                          }}
                           className="icon-btn-warning"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -203,7 +203,7 @@ export default function UsersPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-2 pt-2">
               <button
                 onClick={() => {
@@ -212,9 +212,9 @@ export default function UsersPage() {
                 }}
                 className="w-full bg-primary text-white py-2.5 px-4 rounded-lg hover:bg-primary-dark font-medium text-sm transition focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"
               >
-                Deactivate Account (Safe - Keeps History)
+                Deactivate Account
               </button>
-              
+
               <button
                 onClick={() => {
                   setShowOptionsModal(false);
@@ -222,9 +222,9 @@ export default function UsersPage() {
                 }}
                 className="w-full bg-secondary text-white py-2.5 px-4 rounded-lg hover:bg-secondary-dark font-medium text-sm transition focus:outline-none focus:ring-2 focus:ring-secondary/20 shadow-sm"
               >
-                Delete Completely (Hard Remove)
+                Delete Account
               </button>
-              
+
               <button
                 onClick={() => {
                   setShowOptionsModal(false);
@@ -248,13 +248,13 @@ export default function UsersPage() {
                 <AlertTriangle className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-primary">CRITICAL WARNING</h3>
+                <h3 className="text-lg font-bold text-primary">WARNING</h3>
                 <p className="text-sm text-navy-secondary mt-1 leading-relaxed">
-                  You are about to permanently delete <strong className="text-navy">{actionUser.name}</strong>. This action <strong className="text-primary">will remove all traces</strong> of their transaction logs, restock requests, and activity history from the platform database. This cannot be undone.
+                  You are about to permanently delete <strong className="text-navy">{actionUser.name}</strong>. This action <strong>will remove all traces</strong> of their transaction logs, restock requests, and activity history from the platform database. This cannot be undone.
                 </p>
               </div>
             </div>
-            
+
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => {
@@ -263,7 +263,7 @@ export default function UsersPage() {
                 }}
                 className="flex-1 bg-surface-muted text-navy-secondary py-2.5 rounded-lg hover:bg-surface-border hover:text-navy text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-navy/10 border border-surface-border"
               >
-                Back Out (Safe)
+                Cancel
               </button>
               <button
                 onClick={() => {
@@ -272,7 +272,7 @@ export default function UsersPage() {
                 }}
                 className="flex-1 bg-primary text-white py-2.5 rounded-lg hover:bg-primary-dark text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"
               >
-                Confirm Purge
+                Confirm
               </button>
             </div>
           </div>

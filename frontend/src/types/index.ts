@@ -38,6 +38,7 @@ export interface Transaction {
   transaction_type: 'stock_in' | 'stock_out';
   quantity: number;
   remarks: string;
+  ordered_at?: string;
   created_at: string;
 }
 
@@ -106,6 +107,9 @@ export interface StockRunwayPrediction {
   current_stock: number;
   predicted_30_day_demand: number;
   stock_runway_status: string;
+  average_lead_time_days: number;
+  order_frequency_pattern: string;
+  recommended_reorder_window_days: number;
 }
 
 

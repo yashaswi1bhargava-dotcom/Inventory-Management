@@ -116,6 +116,7 @@ class TransactionCreate(BaseModel):
     transaction_type: TransactionType
     quantity: int = Field(..., gt=0)
     remarks: str = ""
+    ordered_at: Optional[datetime] = None
 
 
 class TransactionResponse(BaseModel):
@@ -127,6 +128,7 @@ class TransactionResponse(BaseModel):
     transaction_type: TransactionType
     quantity: int
     remarks: str
+    ordered_at: Optional[datetime] = None
     created_at: datetime
 
     class Config:
@@ -213,6 +215,9 @@ class StockRunwayPrediction(BaseModel):
     current_stock: int
     predicted_30_day_demand: int
     stock_runway_status: str
+    average_lead_time_days: int
+    order_frequency_pattern: str
+    recommended_reorder_window_days: int
 
     class Config:
         from_attributes = True
