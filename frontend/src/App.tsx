@@ -15,7 +15,7 @@ import AuditLogsPage from './pages/AuditLogsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import LowStockPage from './pages/LowStockPage';
 import SettingsPage from './pages/SettingsPage';
-
+import ChatbotPage from './pages/ChatbotPage';
 function RootRedirect() {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) return <Navigate to="/" replace />;
@@ -36,6 +36,7 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/inventory" element={<InventoryPage />} />
+              <Route path="/chatbot" element={<ChatbotPage />} />
               <Route element={<ProtectedRoute adminOnly />}>
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/products" element={<ProductsPage />} />

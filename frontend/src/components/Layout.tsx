@@ -11,6 +11,7 @@ import {
   AlertTriangle,
   Settings,
   LogOut,
+  MessageCircle,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import logo from '../assets/blucursor-logo.png';
@@ -25,6 +26,7 @@ const navItems = [
   { to: '/audit-logs', label: 'Audit Logs', icon: ScrollText, adminOnly: true },
   { to: '/low-stock', label: 'Low Stock Alerts', icon: AlertTriangle, adminOnly: true },
   { to: '/settings', label: 'Settings', icon: Settings, adminOnly: true },
+  { to: '/chatbot', label: 'AI Chatbot', icon: MessageCircle },
 ];
 
 export default function Layout() {
