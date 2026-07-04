@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models.user import User
-from app.models.product import Product
+from app.models import User, Product
 from pydantic import BaseModel
 import google.generativeai as genai
 import os
